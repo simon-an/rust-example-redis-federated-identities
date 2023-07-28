@@ -1,0 +1,17 @@
+[package]
+edition = "2021"
+name = "rust-example-redis-federated-identities"
+version = "0.1.0"
+authors = ["Simon Potzernheim"]
+
+[dependencies]
+azure_core = "0.13"
+azure_identity = "0.13"
+env_logger = "0.10"
+log = "0.4"
+redis = {features = ["tls-rustls", "tls-rustls-webpki-roots"], version = "0.23"}
+tokio = {version = "1", features = ["macros"]}
+
+[patch.crates-io]
+azure_core = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
+azure_identity = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
