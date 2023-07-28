@@ -3,6 +3,8 @@ edition = "2021"
 name = "rust-example-redis-federated-identities"
 version = "0.1.0"
 authors = ["Simon Potzernheim"]
+LICENSE = "MIT"
+description = "Example for using Azure AD (Federated Identities) with Azure Redis"
 
 [dependencies]
 azure_core = "0.13"

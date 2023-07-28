@@ -5,34 +5,6 @@ use std::{env, sync::Arc};
 use azure_core::auth::TokenCredential;
 use azure_identity::DefaultAzureCredentialBuilder;
 
-async fn connect(sp_object_id: String) -> redis::Connection {
-    let creds: Arc<azure_identity::DefaultAzureCredential> = Arc::new(
-        DefaultAzureCredentialBuilder::new()
-            // .exclude_environment_credential()
-            // .exclude_azure_cli_credential()
-            // .exclude_managed_identity_credential()
-            .build(),
-    );
-    let token = creds
-        .get_token("acca5fbb-b7e4-4009-81f1-37e38fd66d78")
-        .await // This is the azure resource id for redis
-        .unwrap();
-    let redis_host_name =
-        env::var("REDIS_HOSTNAME").expect("missing environment variable REDIS_HOSTNAME");
-    info!("we have a token and will use it with sp: {} for {redis_host_name}", sp_object_id);
-
-    let redis_conn_url = format!(
-        "rediss://{sp_object_id}:{}@{}",
-        token.token.secret(),
-        redis_host_name
-    );
-
-    redis::Client::open(redis_conn_url)
-        .expect("invalid connection URL")
-        .get_connection()
-        .expect("failed to connect to redis")
-}
-
 fn basics(conn: &mut redis::Connection) {
     let _: () = redis::cmd("SET")
         .arg("foo")
