@@ -11,22 +11,27 @@ async fn connect(sp_object_id: String) -> redis::Connection {
             // .exclude_environment_credential()
             // .exclude_azure_cli_credential()
             // .exclude_managed_identity_credential()
-            .build(),
+            .build()
+            .unwrap(),
     );
     let token = creds
-        .get_token("acca5fbb-b7e4-4009-81f1-37e38fd66d78")
+        .get_token(&["acca5fbb-b7e4-4009-81f1-37e38fd66d78/.default"])
         .await // This is the azure resource id for redis
         .unwrap();
     let redis_host_name =
-        env::var("REDIS_HOSTNAME").expect("missing environment variable REDIS_HOSTNAME");
-    info!("we have a token and will use it with sp: {} for {redis_host_name}", sp_object_id);
+        env::var("REDIS_HOSTNAME").unwrap_or("eon-sm-kvs.redis.cache.windows.net".to_string());
+    info!(
+        "we have a token and will use it with sp: {} for {redis_host_name}",
+        sp_object_id
+    );
 
     let redis_conn_url = format!(
-        "rediss://{sp_object_id}:{}@{}",
+        // "rediss://dc959763-b026-4543-bfd6-e18020e7339f:{}@{}:6380",
+        "rediss://{sp_object_id}:{}@{}:6380",
         token.token.secret(),
         redis_host_name
     );
-
+    // println!("redis_conn_url: {}", redis_conn_url);
     redis::Client::open(redis_conn_url)
         .expect("invalid connection URL")
         .get_connection()

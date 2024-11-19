@@ -7,13 +7,13 @@ LICENSE = "MIT"
 description = "Example for using Azure AD (Federated Identities) with Azure Redis"
 
 [dependencies]
-azure_core = "0.13"
-azure_identity = "0.13"
-env_logger = "0.10"
-log = "0.4"
-redis = {features = ["tls-rustls", "tls-rustls-webpki-roots"], version = "0.23"}
+azure_core = "0.21.0"
+azure_identity = "0.21.0"
+env_logger = "0.11.5"
+log = "0.4.22"
+redis = {features = ["tls-rustls", "tls-rustls-webpki-roots"], version = "0.27.5"}
 tokio = {version = "1", features = ["macros"]}
 
-[patch.crates-io]
-azure_core = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
-azure_identity = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
+# [patch.crates-io]
+# azure_core = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
+# azure_identity = {git = "https://github.com/simon-an/azure-sdk-for-rust.git", branch = "feat/workload-identity"}
